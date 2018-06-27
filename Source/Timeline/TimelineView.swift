@@ -88,14 +88,13 @@ public class TimelineView: UIView, ReusableView {
 
   var style = TimelineStyle()
 
-  var verticalDiff: CGFloat = 45
   var verticalInset: CGFloat = 10
   var leftInset: CGFloat = 53
 
   var horizontalEventInset: CGFloat = 3
 
   public var fullHeight: CGFloat {
-    return verticalInset * 2 + verticalDiff * 24
+    return verticalInset * 2 + style.verticalDiff * 24
   }
 
   var calendarWidth: CGFloat {
@@ -210,7 +209,7 @@ public class TimelineView: UIView, ReusableView {
       context?.setLineWidth(onePixel)
       context?.translateBy(x: 0, y: 0.5)
       let x: CGFloat = 53
-      let y = verticalInset + iFloat * verticalDiff
+      let y = verticalInset + iFloat * style.verticalDiff
       context?.beginPath()
       context?.move(to: CGPoint(x: x, y: y))
       context?.addLine(to: CGPoint(x: (bounds).width, y: y))
@@ -220,7 +219,7 @@ public class TimelineView: UIView, ReusableView {
       if i == hourToRemoveIndex { continue }
         
       let fontSize = style.font.pointSize
-      let timeRect = CGRect(x: 2, y: iFloat * verticalDiff + verticalInset - 7,
+      let timeRect = CGRect(x: 2, y: iFloat * style.verticalDiff + verticalInset - 7,
                             width: leftInset - 8, height: fontSize + 2)
 
       let timeString = NSString(string: time)
@@ -362,13 +361,13 @@ public class TimelineView: UIView, ReusableView {
   fileprivate func dateToY(_ date: Date) -> CGFloat {
     if date.dateOnly() > self.date.dateOnly() {
       // Event ending the next day
-      return 24 * verticalDiff + verticalInset
+      return 24 * style.verticalDiff + verticalInset
     } else if date.dateOnly() < self.date.dateOnly() {
       // Event starting the previous day
       return verticalInset
     } else {
-      let hourY = CGFloat(date.hour) * verticalDiff + verticalInset
-      let minuteY = CGFloat(date.minute) * verticalDiff / 60
+      let hourY = CGFloat(date.hour) * style.verticalDiff + verticalInset
+      let minuteY = CGFloat(date.minute) * style.verticalDiff / 60
       return hourY + minuteY
     }
   }
